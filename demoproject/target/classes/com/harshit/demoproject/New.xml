@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Define a bean of type com.harshit.demoproject.Student with name "Student1" -->
+    <bean class="com.harshit.demoproject.Student" name="Student1">
+
+        <!-- Set properties for the Student bean -->
+        <property name="studentId" value="111" />         <!--Here we are using value as a attribute not a tag-->
+        <property name="studentName" value="Krishna" />
+        <property name="studentAddress" value="Mathura" />
+
+    </bean>
+</beans>
