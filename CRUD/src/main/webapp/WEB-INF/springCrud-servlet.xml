@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        
+        <context:component-scan base-package="productCrudApp" > </context:component-scan>
+        
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" name="viewResolver">
+            <property name="prefix" value="/WEB-INF/NEX/"/>
+            <property name="suffix" value=".jsp"/>
+      </bean>  
+      
+          <!-- Enable annotation-driven transaction management -->
+    <tx:annotation-driven/>
+
+    <!-- Data source configuration -->
+    <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/productCrud"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!-- Hibernate SessionFactory configuration -->
+    <bean id="factory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="ds"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>productCrudApp.model.Product</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- HibernateTemplate configuration -->
+    <bean id="hibernateTemp" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="factory"/>
+    </bean>
+     <!-- Transaction Manager configuration -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="factory"/>
+    </bean>
+    
+    
+</beans>
